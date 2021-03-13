@@ -22,7 +22,7 @@ That is, there should have enough storage spaces in the entire network to store 
 If not, it prints out a message “there is not enough storage in the network’, and asks the user to input again
 
 
-###Note: You can’t use the priority queue/heap libraries that are commonly available in all the programming languages.
+### Note: You can’t use the priority queue/heap libraries that are commonly available in all the programming languages.
 You must create your own data structure (i.e., an array storing the heap), 
 create your own priority queue, and implement all the required operations of priority queue. 
 I will take a close look of your codes to check this.
