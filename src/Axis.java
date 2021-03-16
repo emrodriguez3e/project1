@@ -34,6 +34,7 @@ public class Axis {
 	public void setData(double data){
 		this.data = data;
 	}
-	
+
 	public boolean isStorageType(){return store;}
+	public void setStorageType(Boolean set){this.store = set;}
 }
