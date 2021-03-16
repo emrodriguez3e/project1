@@ -164,7 +164,7 @@ public class SensorNetwork {
 			if(!connectedNode.isEmpty()) {
 				connectedNodes.add(connectedNode);
 			}
-		}
+		}//end of for loop
 		
 		if(connectedNodes.size() == 1) {
 			System.out.println("Graph is fully connected with one connected component.");
