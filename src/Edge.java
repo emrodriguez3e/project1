@@ -3,6 +3,8 @@ import java.math.*;
 public class Edge {
 
     double distance = 0;
+    double reciever = 0;
+    double transmission = 0;
     double electric = Math.pow(100, -12);
     double amp = Math.pow(100, -9);
 
@@ -25,11 +27,16 @@ public class Edge {
         }
     }
 
-    void tranmission(){
-        double transmission = electric * k + amp * k * Math.pow(distance);
+    void setTranmission(){
+         transmission = electric * k + amp * k * Math.pow(distance, 2);
+         //this is for the data nodes
     }
 
-    void receiver(){
-        double reciever = electric * k;
+    void setReceiver(){
+         reciever = electric * k; //this is the value for the storage nodes
+    }
+
+    void calcualteEdge(){
+        double edgeCost = reciever + transmission;
     }
 }
