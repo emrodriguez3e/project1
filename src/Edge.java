@@ -7,6 +7,7 @@ public class Edge {
     double transmission = 0;
     double electric = Math.pow(100, -12);
     double amp = Math.pow(100, -9);
+    double k = 3200;
 
     //needs two nodes
     public Edge(Axis node1, Axis node2){
