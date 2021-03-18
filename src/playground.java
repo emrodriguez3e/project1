@@ -8,6 +8,9 @@ public class playground {
     public List dataNodesList = new ArrayList<>();
     public List storageNodesList = new ArrayList<>();
     Map<Integer, Boolean> discovered = new HashMap<Integer,Boolean>();
+    double electric = Math.pow(100, -12);
+    double amp = Math.pow(100, -9);
+    double k = 3200;
 
     Stack<Integer> s = new Stack<Integer>();
 
@@ -27,21 +30,31 @@ public class playground {
         int dataNodes = 5;
         System.out.println(dataNodes +" nodes have been set to data nodes.");
 
+        int dataPacket = 200;
+        System.out.println("Tuning data output to" +dataPacket+" bits");
+
         int storage = 100;
         System.out.println("Storage node capacities have been set to store "+storage+" bits.\n");
+
+        double allData = dataNodes * dataPacket;
+        double allStorage = (numberOfNodes-dataNodes)*storage;
+
+        if(allData > allStorage){
+            System.out.println("There is not enough storage available to store all the data.\nPlease try again.");
+            System.exit(1);
+        }
 
         playground play = new playground();
         play.populateNodes(numberOfNodes,width, height, dataNodes); //this will give the location of the nodes
 
         for(int key : play.nodes.keySet()){
             Axis ax = play.nodes.get(key);
-            System.out.println("Node: "+key+", xAxis:"+ ax.getxAxis() + ", yAxsis:"+ax.getyAxis());
+            System.out.println("Node: "+key+", xAxis:"+ ax.getxAxis() + ", yAxis:"+ax.getyAxis());
         }
 
         Map<Integer, Set<Integer>> adjList = new LinkedHashMap();
 
         play.populateAdjacencyList(numberOfNodes, transmissionRange, adjList);
-
 
 
         for(int i: adjList.keySet()){
@@ -53,8 +66,6 @@ public class playground {
             }//end of if
             System.out.println();
         }//end of outer for loop
-
-
 
         play.executeStackDFS(width, height, adjList);
 
@@ -134,11 +145,11 @@ public class playground {
 
             //set a certain amount of nodes to be data
             if((random.nextDouble()) > 0.75 && dataNodeCount < dataNode){
-                axis.setData(3200);
+                axis.setPackets(3200);
                 dataNodeCount++;
                 dataNodesList.add(i);
             }else{
-                axis.setStorage(400);
+                axis.setCapacity(400);
                 storageNodesList.add(i);
             }
             nodes.put(i, axis);
@@ -171,13 +182,32 @@ public class playground {
                 //if a node is within range and has a data type
                 if(distance <= tr) {
 
-                    Set<Integer> tempList = adjList.get(node1);
-                    tempList.add(node2);
-                    adjList.put(node1, tempList);
+                    double edge = electric * k + amp * k * Math.pow(distance,2) + electric *k;
 
-                    tempList = adjList.get(node2);
-                    tempList.add(node1);
-                    adjList.put(node2, tempList);
+                    //node 1 is DN && node 2 is SN
+                    if(axis1.isStorageType() == false && axis2.isStorageType() == true){
+                        Set<Integer> tmpList = adjList.get(node1);
+                        Set<Integer> tempList = adjList.get(node1);
+                        tempList.add(node2);
+                        adjList.put(node1, tempList);
+
+                        tempList = adjList.get(node2);
+                        tempList.add(node1);
+                        adjList.put(node2, tempList);
+
+                    }
+                    //node 1 is SN && node 2 is DN
+                    else if(axis1.isStorageType() == true && axis2.isStorageType() == false){
+                        Set<Integer> tmpList = adjList.get(node2);
+
+                        tmpList.add(node1);
+                        adjList.put(node2, tmpList);
+
+                        tmpList = adjList.get(node1);
+                        tmpList.add(node2);
+                        adjList.put(node1, tmpList);
+                    }//end of else if
+
                 }
             }
         }

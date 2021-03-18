@@ -7,11 +7,13 @@ public class Axis {
 	private double xAxis;
 	private double yAxis;
 	private double storage;
-	private double data;
-	private Boolean store;
+	private double packets;
+	private Boolean sn;
 
 
 	public Axis(){
+
+
 
 	}
 
@@ -19,6 +21,7 @@ public class Axis {
 			this.job = job;
 			this.priority = priority;
 		}// end of constructor
+	//TODO figure out how relationship between Axis and SensorNetwork
 
 	
 	public double getxAxis() {
@@ -35,22 +38,37 @@ public class Axis {
 		this.yAxis = yAxis;
 	}
 
-	public double getStorage(){
+
+	public double getCapacity(){
 		return storage;
 	}
-	public void setStorage(double storage){
+
+	public void setCapacity(double storage){
 		this.storage = storage;
+//		this.setStorageType(true);
+	}//end of setCapacity
+
+	public double getPackets(){
+		return packets;
 	}
 
-	public double getData(){
-		return data;
-	}
-	public void setData(double data){
-		this.data = data;
+	public void setPackets(double packets){
+		this.packets = packets;
+//		this.setStorageType(false);
 	}
 
-	public boolean isStorageType(){return store;}
-	public void setStorageType(Boolean set){this.store = set;}
+	public boolean isStorageType(){
+		return sn;
+	}
+
+	public void setStorageType(double packet, double storage){
+		if(packet == 0){
+			this.sn = false;
+		}
+		else if(storage == 0){
+			this.sn = true;
+		}
+	}
 
 	public String toString(){
 		return "Job Name : "+ job +"\nPriority : "+ priority;

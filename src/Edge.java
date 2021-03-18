@@ -22,22 +22,24 @@ public class Edge {
             //this is where they are both storage nodes
         }else{
             //get their distance
-//            double distance =  Math.sqrt(((xAxis1-xAxis2)*(xAxis1-xAxis2)) + ((yAxis1-yAxis2)*(yAxis1-yAxis2)));
             double distance = Math.sqrt(((node2.getxAxis()-node1.getxAxis()) + (node2.getyAxis() - node2.getyAxis())));
             distance = this.distance;
         }
     }
 
-    void setTranmission(){
-         transmission = electric * k + amp * k * Math.pow(distance, 2);
+    double setTranmission(){
+        transmission = electric * k + amp * k * Math.pow(distance, 2);
+        return transmission;
          //this is for the data nodes
     }
 
-    void setReceiver(){
+    double setReceiver(){
          reciever = electric * k; //this is the value for the storage nodes
+        return reciever;
     }
 
-    void calcualteEdge(){
-        double edgeCost = reciever + transmission;
+    double calculateEdge(){
+        double edgeCost = setReceiver() + setTranmission();
+        return edgeCost;
     }
 }
